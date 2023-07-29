@@ -1,36 +1,27 @@
-import { useRef, useState } from "react";
 import "./App.css";
 
-import { Canvas, ThreeElements, useFrame } from "@react-three/fiber";
-
-function Box(props: ThreeElements["mesh"]) {
-  const ref = useRef<THREE.Mesh>(null!);
-  const [hovered, hover] = useState(false);
-  const [clicked, click] = useState(false);
-  useFrame((state, delta) => (ref.current.rotation.x += delta));
-  return (
-    <mesh
-      {...props}
-      ref={ref}
-      scale={clicked ? 1.5 : 1}
-      onClick={(event) => click(!clicked)}
-      onPointerOver={(event) => hover(true)}
-      onPointerOut={(event) => hover(false)}
-    >
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
-    </mesh>
-  );
-}
+import { OrbitControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { Model } from "./Draft3";
 
 function App() {
   return (
     <div className="App">
-      <Canvas>
+      <Canvas
+        style={{
+          background: "black",
+          height: "100dvh",
+          width: "100dvw",
+        }}
+        camera={{
+          position: [200, 40, 0],
+        }}
+      >
         <ambientLight />
         <pointLight position={[10, 10, 10]} />
-        <Box position={[-1.2, 0, 0]} />
-        <Box position={[1.2, 0, 0]} />
+
+        <OrbitControls makeDefault />
+        <Model />
       </Canvas>
     </div>
   );
