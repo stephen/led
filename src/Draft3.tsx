@@ -24,7 +24,9 @@ type GLTFResult = GLTF & {
 };
 
 export function Model(props: JSX.IntrinsicElements["group"]) {
-  const { nodes, materials } = useGLTF("/draft3-transformed.glb") as GLTFResult;
+  const { nodes, materials } = useGLTF(
+    process.env.PUBLIC_URL + "/draft3-transformed.glb",
+  ) as GLTFResult;
 
   const model = useRef<THREE.Group>(null);
   useFrame((state, delta) => {
